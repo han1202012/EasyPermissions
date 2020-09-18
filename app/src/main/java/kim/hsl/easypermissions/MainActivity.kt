@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        Log.i(TAG, "onRequestPermissionsResult")
+
         // 进一步使用 EasyPermissions 处理后续结果
         EasyPermissions.onRequestPermissionsResult(
             requestCode, permissions, grantResults, this);
@@ -58,11 +60,11 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
      * 调用 EasyPermissions.requestPermissions() 方法申请权限 , 用户点击拒绝授权后会回调该方法
      */
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        Log.i(TAG, "用户拒绝权限申请 , 请求码 $requestCode , 拒绝的权限 : $perms")
+        Log.i(TAG, "onPermissionsDenied 用户拒绝权限申请 , 请求码 $requestCode , 拒绝的权限 : $perms")
 
 
         // 如果申请的权限中有任何一个权限存在 永久拒绝 的情况
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        /*if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             // 设置 引导用户前往设置界面 自行设置权限的引导对话框
             AppSettingsDialog.Builder(this)
                 .setTitle("需要手动设置权限")
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
                 .setPositiveButton("前往设置界面")
                 .setNegativeButton("不使用该功能")
                 .build().show()
-        }
+        }*/
     }
 
     /**
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
      * 调用 EasyPermissions.requestPermissions() 方法申请权限 , 用户点击同意授权后会回调该方法
      */
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        Log.i(TAG, "用户同意权限申请 , 请求码 $requestCode , 拒绝的权限 : $perms")
+        Log.i(TAG, "onPermissionsGranted 用户同意权限申请 , 请求码 $requestCode , 拒绝的权限 : $perms")
     }
 
 
@@ -113,7 +115,17 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
 
     fun onCLick(view : View){
         // 申请权限, 并在权限申请通过后 , 在执行一次该方法
-        doSomethingWithPermissions();
+        //doSomethingWithPermissions();
+
+        EasyPermissions.requestPermissions(
+            this,
+            "申请五种权限",
+            PERMISSION_REQUEST_CODE,
+
+            // 数组前加上 * 符号 , 可以将数组展开 , 转为可变数组
+            *PERMMISSIONS
+        )
+
     }
 
     /**
@@ -123,9 +135,12 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
     @AfterPermissionGranted( 100 )
     fun doSomethingWithPermissions(){
 
+        Log.i(TAG, "doSomethingWithPermissions")
+
         // 数组前加上 * 符号 , 可以将数组展开 , 转为可变数组
         // 调用 EasyPermissions.hasPermissions 方法判定是否已经申请该权限
-        if(EasyPermissions.hasPermissions(this, *PERMMISSIONS)){
+        if(EasyPermissions.hasPermissions(this,
+                *PERMMISSIONS)){
             // 如果有上述权限, 执行该操作
             Toast.makeText(this, "权限申请通过", Toast.LENGTH_LONG).show()
         }else{
