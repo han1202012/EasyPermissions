@@ -13,7 +13,7 @@ import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import pub.devrel.easypermissions.EasyPermissions.RationaleCallbacks
 
-class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallbacks{
+class MainActivity_2020_09_18 : AppCompatActivity(), PermissionCallbacks, RationaleCallbacks{
 
     val TAG = "MainActivity"
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
 
 
         // 如果申请的权限中有任何一个权限存在 永久拒绝 的情况
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+        /*if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             // 设置 引导用户前往设置界面 自行设置权限的引导对话框
             AppSettingsDialog.Builder(this)
                 .setTitle("需要手动设置权限")
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
                 .setPositiveButton("前往设置界面")
                 .setNegativeButton("不使用该功能")
                 .build().show()
-        }
+        }*/
     }
 
     /**
@@ -115,7 +115,17 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
 
     fun onCLick(view : View){
         // 申请权限, 并在权限申请通过后 , 在执行一次该方法
-        doSomethingWithPermissions();
+        //doSomethingWithPermissions();
+
+        EasyPermissions.requestPermissions(
+            this,
+            "申请五种权限",
+            PERMISSION_REQUEST_CODE,
+
+            // 数组前加上 * 符号 , 可以将数组展开 , 转为可变数组
+            *PERMMISSIONS
+        )
+
     }
 
     /**
@@ -137,7 +147,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
             // 如果没有上述权限 , 那么申请权限
             EasyPermissions.requestPermissions(
                 this,
-                "权限申请原理对话框 : 描述申请权限的原理",
+                "申请五种权限",
                 PERMISSION_REQUEST_CODE,
 
                 // 数组前加上 * 符号 , 可以将数组展开 , 转为可变数组
