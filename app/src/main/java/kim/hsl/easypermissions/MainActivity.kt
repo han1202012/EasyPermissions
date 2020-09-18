@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
     /**
      * 权限申请码, 作为权限申请的标识
      */
-    val PERMISSION_REQUEST_CODE : Int = 666;
+    val PERMISSION_REQUEST_CODE : Int = 100;
     var PERMMISSIONS: Array<String> = arrayOf(Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.READ_CONTACTS,
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
      * AfterPermissionGranted 注解的作用是 , 当 请求吗 666 对应的权限申请全部通过后
      * 再次回调一次该方法 . ( 相当于调用了两次该方法 )
      */
-    @AfterPermissionGranted( 666 )
+    @AfterPermissionGranted( 100 )
     fun doSomethingWithPermissions(){
 
         // 数组前加上 * 符号 , 可以将数组展开 , 转为可变数组
