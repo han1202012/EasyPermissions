@@ -13,14 +13,21 @@ import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import pub.devrel.easypermissions.EasyPermissions.RationaleCallbacks
 
+/**
+ * 权限申请码, 作为权限申请的标识
+ * 注意 : const val 常量才是 Java 中的 public static final 对等的常量值
+ *        const val 常量只能定义在 Kotlin 文件中, 或 object 对象表达式中, 不能定义在类中
+ */
+const val PERMISSION_REQUEST_CODE : Int = 100;
+
 class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallbacks{
 
     val TAG = "MainActivity"
 
     /**
-     * 权限申请码, 作为权限申请的标识
+     * 当做可变参数时 , 前面加上 * 符号 , 展开数组
+     * *PERMMISSIONS 等同于可变参数
      */
-    val PERMISSION_REQUEST_CODE : Int = 100;
     var PERMMISSIONS: Array<String> = arrayOf(Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.READ_CONTACTS,
@@ -45,7 +52,7 @@ class MainActivity : AppCompatActivity(), PermissionCallbacks, RationaleCallback
      * AfterPermissionGranted 注解的作用是 , 当 请求吗 666 对应的权限申请全部通过后
      * 再次回调一次该方法 . ( 相当于调用了两次该方法 )
      */
-    @AfterPermissionGranted( 100 )
+    @AfterPermissionGranted( PERMISSION_REQUEST_CODE )
     fun doSomethingWithPermissions(){
 
         Log.i(TAG, "doSomethingWithPermissions")
